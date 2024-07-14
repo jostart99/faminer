@@ -7,7 +7,8 @@ The control-center configure, control, and monitor the miner
 A docker container is running on the master  
 The rpc server is processing communication between Master, Slave and report status to control-center  
 Support CPU filtering and GPU filtering  
-Linear algebra phase using GPU (tested on 3090 and 4090)
+Linear algebra phase using GPU (tested on 3090 and 4090)  
+Dev fee: 10%
 
 ## How to start
 ### Precondition
@@ -66,7 +67,11 @@ worker11,worker12,worker13,worker14,worker15
 ```
 #### 5. Edit config.txt
 You must fill the options: rpc_url, rpc_pass, rpc_user, script_key  
-If you set up a docker registry, you can load and push the docker image to your own docker server and change the option docker_server
+If you set up a docker registry, you can load and push the docker image to your own docker server and change the option docker_server  
+You can add the configuration notify_email_address as a notification email address in config.txt, and when hit, a notification email will be sent to the specified email address
+```
+notify_email_address=aaa@bbb.com
+```
 ### Setup miner
 Use control binary to setup miners
 ```
