@@ -11,6 +11,7 @@ The miner supports both CPU and GPU filtering.
 The linear algebra phase uses GPU (tested on 3090 and 4090).  
 Dev fee: 10%
 
+![Flow chart](./chart.png)
 ## How to Start
 ### Prerequisites
 A FACT0RN node is required. See [FACT0RN](https://github.com/FACT0RN/FACT0RN).
