@@ -65,6 +65,7 @@ Example (worker1 and worker11 are masters):
 worker1,worker2,worker3,worker4,worker5
 worker11,worker12,worker13,worker14,worker15
 ```
+For now, a group can only support one master
 #### 5. Edit config.txt
 You must fill in the following options: `rpc_url`, `rpc_pass`, `rpc_user`, and `script_key`.  
 If you have set up a Docker registry, you can load and push the Docker image to your own Docker server and change the option `docker_server`.  
