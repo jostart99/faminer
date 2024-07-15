@@ -99,4 +99,17 @@ then
 ./monitor
 ```
 ### Logs
-You can find the necessary logs in the `/root/fact/logs` directory on the master.
+You can find the necessary logs in the `/root/fact/log` directory on the master.
+### Update
+Use the update binary to start miners
+```
+./update
+```
+This will update control center and download latest rpc server and other components to binary folder.
+After update, you still need use `./control --update-rpc all` or `./control --setup all` to install latest rpc server and components on workers.
+#### Update RPC server
+Manually download or use `./update` to download latest PRC server apk to binary folder, then use below command to install RPC server
+```
+./control --update-rpc all
+```
+Installing the RPC server may cause the RPC connection to be interrupted for a few seconds up to 2 minutes. During this time, do not perform setup or other operations. You can get an overview of the status of the connection via the monitor.
