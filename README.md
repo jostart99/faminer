@@ -1,18 +1,19 @@
 # faminer
-Miner for [FACT0RN](https://www.fact0rn.io), based on yafu, cado-nfs, msieve
+Miner for [FACT0RN](https://www.fact0rn.io), based on yafu, cado-nfs, and msieve.
 
-## Introduce
-Mainly consists of a control center, a docker container, rpc server  
-The control-center configure, control, and monitor the miner  
-A docker container is running on the master  
-The rpc server is processing communication between Master, Slave and report status to control-center  
-Support CPU filtering and GPU filtering  
-Linear algebra phase using GPU (tested on 3090 and 4090)  
+## Introduction
+faminer primarily consists of a control center, a Docker container, and an RPC server.
+- The control center configures, controls, and monitors the miner.
+- A Docker container runs on the master node.
+- The RPC server handles communication between the master and slave nodes and reports status to the control center.
+
+The miner supports both CPU and GPU filtering.  
+The linear algebra phase uses GPU (tested on 3090 and 4090).  
 Dev fee: 10%
 
-## How to start
-### Precondition
-A FACT0RN node is required, see [FACT0RN](https://github.com/FACT0RN/FACT0RN)
+## How to Start
+### Prerequisites
+A FACT0RN node is required. See [FACT0RN](https://github.com/FACT0RN/FACT0RN).
 ### Download
 * [control-center.zip](https://github.com/jostart99/faminer/releases/download/latest/control-center.zip)
 ```
@@ -23,7 +24,7 @@ wget https://github.com/jostart99/faminer/releases/download/latest/control-cente
 wget https://github.com/jostart99/faminer/releases/download/latest/fact-rpc-server.deb
 ```
 ### Install rpc server
-You need to install rpc server on all the masters and slaves
+You need to install the RPC server on all the masters and slaves:
 ```
 apt install -f ./fact-rpc-server.deb
 ```
@@ -41,7 +42,7 @@ cp group.txt.example group.txt
 cp hostlist.txt.example hostlist.txt
 ```
 #### 3. Edit hostlist.txt  
-For convenience, the miner use aliases to communicate with each other, so you need to configure the IP and the corresponding alias, which can be the same or different from the host name, but can not be duplicated  
+For convenience, the miner uses aliases to communicate with each other. You need to configure the IP addresses and corresponding aliases. Aliases can be the same or different from the host names but must be unique.  
 Example:
 ```
 192.168.1.200 worker0
@@ -51,24 +52,23 @@ Example:
 192.168.1.204 worker4
 192.168.1.205 worker5
 ```
-On the computer running the control center, copy the ip and alias to /etc/hosts
-or run the script after editing hostlist.txt
+On the computer running the control center, copy the IP and alias to `/etc/hosts` or run the script after editing `hostlist.txt`:
 ```
 cd ~/fact/control-center
 sudo script/setup_script/set_etc_host.sh config/hostlist.txt
 ```
 #### 4. Edit group.txt
-The master and slave are separated by a comma, master at the beginning of the line, 
-each line is a group  
+The master and slave are separated by a comma, with the master at the beginning of the line. 
+Each line is a group  
 Example (worker1 and worker11 are masters):
 ```
 worker1,worker2,worker3,worker4,worker5
 worker11,worker12,worker13,worker14,worker15
 ```
 #### 5. Edit config.txt
-You must fill the options: rpc_url, rpc_pass, rpc_user, script_key  
-If you set up a docker registry, you can load and push the docker image to your own docker server and change the option docker_server  
-You can add the configuration notify_email_address as a notification email address in config.txt, and when hit, a notification email will be sent to the specified email address
+You must fill in the following options: `rpc_url`, `rpc_pass`, `rpc_user`, and `script_key`.  
+If you have set up a Docker registry, you can load and push the Docker image to your own Docker server and change the option `docker_server`.  
+You can add the configuration `notify_email_address` to receive notification emails.
 ```
 notify_email_address=aaa@bbb.com
 ```
@@ -81,15 +81,15 @@ or
 ```
 ./control --setup worker1,worker2,worker3,worker4,worker5
 ```
-This will setup the miners: download required binaries, install drivers and apks, pull the docker container and so on
+This will set up the miners: download required binaries, install drivers and APKs, pull the Docker container, and more.
 ### Start miner
-Use control binary to start miners
+Use the control binary to start miners
 ```
 ./control --start all
 ```
 ### Monitor
-Run monitor binary to monitor the status of the mining machine from your terminal  
-Before running monitor for the first time, you need to make sure that the python3 rich module is installed.
+Run the monitor binary to check the status of the mining machines from your terminal.  
+Before running the monitor for the first time, ensure that the Python 3 rich module is installed:
 ```
 sudo apt install python3-pip
 python3 -m pip install rich
@@ -99,4 +99,4 @@ then
 ./monitor
 ```
 ### Logs
-You can find the logs you need in the /root/fact/logs directory of the master
+You can find the necessary logs in the `/root/fact/logs` directory on the master.
