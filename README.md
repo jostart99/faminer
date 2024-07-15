@@ -88,7 +88,7 @@ Use the control binary to start miners
 ```
 ./control --start all
 ```
-### Monitor
+## Monitor
 Run the monitor binary to check the status of the mining machines from your terminal.  
 Before running the monitor for the first time, ensure that the Python 3 rich module is installed:
 ```
@@ -99,21 +99,21 @@ then
 ```
 ./monitor
 ```
-### Logs
+## Logs
 You can find the necessary logs in the `/root/fact/log` directory on the master.
-### Stop miner
+## Stop miner
 Use the control binary to stop miners
 ```
 ./control --stop all
 ```
-### Update
+## Update
 Use the update binary to update the control center
 ```
 ./update
 ```
 This will update control center and download latest rpc server and other components to binary folder.
 After update, you still need use `./control --update-rpc all` or `./control --setup all` to install latest rpc server and components on workers.
-#### Update RPC server
+### Update RPC server
 Manually download or use `./update` to download latest PRC server apk to binary folder, then use below command to install RPC server
 ```
 ./control --update-rpc all
