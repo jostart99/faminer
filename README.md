@@ -100,8 +100,13 @@ then
 ```
 ### Logs
 You can find the necessary logs in the `/root/fact/log` directory on the master.
+### Stop miner
+Use the control binary to stop miners
+```
+./control --stop all
+```
 ### Update
-Use the update binary to start miners
+Use the update binary to update the control center
 ```
 ./update
 ```
