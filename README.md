@@ -7,8 +7,9 @@ faminer primarily consists of a control center, a Docker container, and an RPC s
 - A Docker container runs on the master node.
 - The RPC server handles communication between the master and slave nodes and reports status to the control center.
 
-The miner supports both CPU and GPU filtering.  
-The linear algebra phase uses GPU (tested on 3090 and 4090).  
+<strong>Supports multiple masters.</strong>  
+<strong>Supports both CPU and GPU filtering.</strong>  
+<strong>The linear algebra phase uses GPU</strong> (tested on 3090 and 4090).  
 Dev fee: 10%
 
 ![Flow chart](./chart.png)
@@ -60,13 +61,18 @@ sudo script/setup_script/set_etc_host.sh config/hostlist.txt
 ```
 #### 4. Edit group.txt
 The master and slave are separated by a comma, with the master at the beginning of the line. 
-Each line is a group  
+Each line is a group.  
 Example (worker1 and worker11 are masters):
 ```
 worker1,worker2,worker3,worker4,worker5
 worker11,worker12,worker13,worker14,worker15
 ```
-For now, a group can only support one master
+<strong>If you want to use multiple masters in one group, use a colon to split them.</strong>  
+Example (worker1, work2, worker11, worker12 are masters):
+```
+worker1:worker2,worker3,worker4,worker5
+worker11:worker12,worker13,worker14,worker15
+```
 #### 5. Edit config.txt
 You must fill in the following options: `rpc_url`, `rpc_pass`, `rpc_user`, and `script_key`.  
 If you have set up a Docker registry, you can load and push the Docker image to your own Docker server and change the option `docker_server`.  
@@ -81,9 +87,16 @@ Use control binary to setup miners
 ```
 or
 ```
-./control --setup worker1,worker2,worker3,worker4,worker5
+./control --setup worker1:worker2,worker3,worker4,worker5
 ```
-This will set up the miners: download required binaries, install drivers and APKs, pull the Docker container, and more.
+This will set up the miners: download required binaries, install drivers and APKs, pull the Docker container, generate config scripts, and more.
+The setup script will try to install the CUDA toolkit, Nvidia driver, Nvidia container toolkit.
+If this is the first time you are installing it, depending on your network environment, this may take more than half an hour.
+You will have to wait for the installation to finish before you can start the miner. Use monitor to see if the hosts are in the SETUP state.
+You can also manually install the following software so that the setup script will skip installing them.
+* cuda-toolkit (>=12.6)
+* nvidia-open
+* nvidia-container-toolkit
 ### Start miner
 Use the control binary to start miners
 ```
@@ -115,8 +128,27 @@ Use the update binary to update the control center
 This will update control center and download latest rpc server and other components to binary folder.
 After update, you still need use `./control --update-rpc all` or `./control --setup all` to install latest rpc server and components on workers.
 ### Update RPC server
-Manually download or use `./update` to download latest PRC server apk to binary folder, then use below command to install RPC server
+Manually download or use `./update` to download latest PRC server apk to `binary` folder, then use below command to install RPC server
 ```
 ./control --update-rpc all
 ```
 Installing the RPC server may cause the RPC connection to be interrupted for a few seconds up to 2 minutes. During this time, do not perform setup or other operations. You can get an overview of the status of the connection via the monitor.
+## Use customized parameters
+When running cado-nfs, the official parameters are used by default. If you want to use custom parameters, please copy your modified parameter file, such as `params.c130`, to the `master` directory under the control center and rename it to <strong>`custom_params`</strong>.  
+You need to stop the miner and send the custom_params to the masters using the `--setup` command
+```
+./control --stop all
+create custom_params in master folder or modify it
+./control --setup all
+./control --start all
+```
+## Test
+You may need to test factoring a single number to get the factoring time or debug your custom parameters. You can use the following method.  
+1. Stop miner
+2. Open a terminal on the master
+3. Enter the `/root/fact/fact-work` directory and run the following command
+```
+. /start-miner.sh -t number
+```
+If you are debugging your custom parameters, make sure that the `custom_params` file exists in the `fact-work` directory.  
+Check the log in the `/root/fact/log/debug` directory on the master.
