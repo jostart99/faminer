@@ -152,3 +152,8 @@ You may need to test factoring a single number to get the factoring time or debu
 ```
 If you are debugging your custom parameters, make sure that the `custom_params` file exists in the `fact-work` directory.  
 Check the log in the `/root/fact/log/debug` directory on the master.
+## About supports multiple masters
+The multi-masters operation mechanism works as follows:
+* The first master controls the operation of all masters within the same group.
+* The first master distributes candidate numbers to the masters.
+* Only one master can control the slaves at the sieving phase, and it releases control after exiting the sieving phase.
