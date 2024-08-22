@@ -89,7 +89,12 @@ or
 ```
 ./control --setup worker1:worker2,worker3,worker4,worker5
 ```
-This will set up the miners: download required binaries, install drivers and APKs, pull the Docker container, generate config scripts, and more.
+This will set up the miners:  
+* Download required binaries
+* Install required drivers and softwares
+* Pull the Docker container (Master only)
+* Generate config scripts (Master only)
+  
 The setup script will try to install the CUDA toolkit, Nvidia driver, Nvidia container toolkit.
 If this is the first time you are installing it, depending on your network environment, this may take more than half an hour.
 You will have to wait for the installation to finish before you can start the miner. Use monitor to see if the hosts are in the SETUP state.
