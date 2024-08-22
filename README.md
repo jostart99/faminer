@@ -147,6 +147,7 @@ You may need to test factoring a single number to get the factoring time or debu
 1. Stop miner
 2. Open a terminal on the master
 3. Enter the `/root/fact/fact-work` directory and run the following command
+4. Stop miner after test if the miner doesn't exit by itself
 ```
 . /start-miner.sh -t number
 ```
