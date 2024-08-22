@@ -157,3 +157,5 @@ The multi-masters operation mechanism works as follows:
 * The first master controls the operation of all masters within the same group.
 * The first master distributes candidate numbers to the masters.
 * Only one master can control the slaves at the sieving phase, and it releases control after exiting the sieving phase.
+
+![multi masters](./multi-masters.png)
